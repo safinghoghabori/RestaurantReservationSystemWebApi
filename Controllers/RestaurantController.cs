@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservationSystem.Api.Exceptions;
 using RestaurantReservationSystem.Api.Models;
@@ -6,24 +7,35 @@ namespace RestaurantReservationSystem.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class RestaurantController : ControllerBase
     {
         private static readonly Restaurant _restaurant = new Restaurant { Name = "SunShine" };
 
         [HttpGet("customers")]
-        public ActionResult<List<Customer>> GetCustomers() => Ok(_restaurant.Customers);
+        [Authorize]
+        public ActionResult<List<Customer>> GetCustomers()
+        {
+            return Ok(_restaurant.Customers);
+        }
 
         [HttpPost("customers")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
         public ActionResult AddCustomer([FromBody] Customer customer)
         {
             _restaurant.AddCustomer(customer);
-            return Ok("Customer added successfully.");
+            return Ok(new { response = "Customer added successfully." });
         }
 
         [HttpGet("tables")]
-        public ActionResult<List<Table>> GetTables() => Ok(_restaurant.Tables);
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
+        public ActionResult<List<Table>> GetTables()
+        {
+            return Ok(_restaurant.Tables);
+        }
 
         [HttpPost("tables")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
         public ActionResult AddTable([FromBody] Table table)
         {
             _restaurant.AddTable(table);
@@ -31,9 +43,13 @@ namespace RestaurantReservationSystem.Api.Controllers
         }
 
         [HttpGet("reservations")]
-        public ActionResult<List<Reservation>> GetReservations() => Ok(_restaurant.Reservations);
+        public ActionResult<List<Reservation>> GetReservations()
+        {
+            return Ok(_restaurant.Reservations);
+        }
 
         [HttpPost("reservations")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
         public ActionResult MakeReservation([FromBody] Reservation reservation)
         {
             try
@@ -60,6 +76,7 @@ namespace RestaurantReservationSystem.Api.Controllers
         }
 
         [HttpPut("reservations/{id}")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
         public ActionResult UpdateReservation(int id, [FromBody] Reservation updatedReservation)
         {
             try
@@ -86,6 +103,7 @@ namespace RestaurantReservationSystem.Api.Controllers
         }
 
         [HttpDelete("reservations/{id}")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
         public ActionResult CancelReservation(int id)
         {
             try
