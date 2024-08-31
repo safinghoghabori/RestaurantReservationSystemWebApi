@@ -1,4 +1,4 @@
-namespace RestaurantReservationSystemAPI.Models
+namespace RestaurantReservationSystem.Api.Models
 {
     public class Customer
     {
