@@ -120,5 +120,26 @@ namespace RestaurantReservationSystem.Api.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+       [HttpPut("customers/{id}")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
+    public ActionResult UpdateCustomer(int id, [FromBody] Customer customer)
+    {
+        try
+        {
+            _restaurant.UpdateCustomer(id, customer);
+            return Ok("Customer updated successfully.");
+        }
+        catch (InvalidReservationException ex)
+        {
+            return NotFound(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
+
+
+        
     }
 }
