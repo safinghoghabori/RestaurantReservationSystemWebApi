@@ -78,7 +78,7 @@ namespace RestaurantReservationSystem.Api.Controllers
             try
             {
                 _restaurant.AddReservation(reservation);
-                return Ok("Reservation made successfully.");
+                return Ok(new { message = "Reservation made successfully." });
             }
             catch (InvalidReservationException ex)
             {
@@ -105,7 +105,7 @@ namespace RestaurantReservationSystem.Api.Controllers
             try
             {
                 _restaurant.UpdateReservation(id, updatedReservation);
-                return Ok("Reservation updated successfully.");
+                return Ok(new { message = "Reservation updated successfully." });
             }
             catch (InvalidReservationException ex)
             {
@@ -132,7 +132,7 @@ namespace RestaurantReservationSystem.Api.Controllers
             try
             {
                 _restaurant.CancelReservation(id);
-                return Ok("Reservation canceled successfully.");
+                return Ok(new { message = "Reservation canceled successfully." });
             }
             catch (InvalidReservationException ex)
             {
