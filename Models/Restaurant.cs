@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.AspNetCore.Http.HttpResults;
 using RestaurantReservationSystem.Api.Exceptions;
 
 namespace RestaurantReservationSystem.Api.Models
@@ -13,6 +14,31 @@ namespace RestaurantReservationSystem.Api.Models
         public void AddCustomer(Customer customer) => Customers.Add(customer);
 
         public void AddTable(Table table) => Tables.Add(table);
+
+        public void UpdateTable(Table table)
+        {
+            var index = Tables.FindIndex(t => t.TableId == table.TableId);
+
+            // Check if the table exists in the list
+            if (index != -1)
+            {
+                // Update the table at the found index
+                Tables[index] = table;
+            }
+            else
+            {
+                throw new Exception("Table not found.");
+            }
+        }
+
+        public void DeleteTable(int id)
+        {
+            var table = Tables.FirstOrDefault(tab => tab.TableId == id);
+            if (table != null)
+            {
+                Tables.Remove(table);
+            }
+        }
 
         public void AddReservation(Reservation reservation)
         {

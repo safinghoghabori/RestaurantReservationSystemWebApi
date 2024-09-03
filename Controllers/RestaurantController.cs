@@ -42,6 +42,29 @@ namespace RestaurantReservationSystem.Api.Controllers
             return Ok("Table added successfully.");
         }
 
+        [HttpPut("tables")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
+        public ActionResult UpdateTable([FromBody] Table table)
+        {
+            try
+            {
+                _restaurant.UpdateTable(table);
+                return Ok(new { message = "Table updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("tables/{id}")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
+        public ActionResult DeleteTable(int id)
+        {
+            _restaurant.DeleteTable(id);
+            return Ok(new { message = "Table deleted successfully." });
+        }
+
         [HttpGet("reservations")]
         public ActionResult<List<Reservation>> GetReservations()
         {
