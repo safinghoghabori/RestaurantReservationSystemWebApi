@@ -77,8 +77,24 @@ namespace RestaurantReservationSystem.Api.Models
 
             AddReservation(reservation);
         }
+        public void UpdateCustomer(int customerId, Customer updatedCustomer)
+        {
+            var customer = Customers.FirstOrDefault(c => c.CustomerId == customerId);
+            if (customer == null)
+            {
+                throw new InvalidReservationException("Customer not found.");
+            }
+
+            customer.Name = updatedCustomer.Name;
+            customer.PhoneNumber = updatedCustomer.PhoneNumber;
+            customer.Age = updatedCustomer.Age;
+            customer.Gender = updatedCustomer.Gender;
+
+        }
+
 
         public void CancelReservation(int reservationId)
+
         {
             var reservation = Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
             if (reservation == null)
@@ -89,5 +105,17 @@ namespace RestaurantReservationSystem.Api.Models
             reservation.Table.IsReserved = false;
             Reservations.Remove(reservation);
         }
+
+        public void DeleteCustomer(int customerId)
+        {
+            var customer = Customers.FirstOrDefault(c => c.CustomerId == customerId);
+            if (customer == null)
+            {
+                throw new InvalidReservationException("Customer not found.");
+            }
+
+            Customers.Remove(customer);
+        }
+
     }
 }
