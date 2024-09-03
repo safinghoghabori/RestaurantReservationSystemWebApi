@@ -138,7 +138,20 @@ namespace RestaurantReservationSystem.Api.Controllers
             return StatusCode(500, new { error = ex.Message });
         }
     }
-
+    [HttpDelete("customers/{id}")]
+    [Authorize(Policy = "RequireRestaurantOwnerRole")]
+    public ActionResult DeleteCustomer(int id)
+    {
+        try
+        {
+            _restaurant.DeleteCustomer(id);
+            return Ok("Customer deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
 
         
     }
