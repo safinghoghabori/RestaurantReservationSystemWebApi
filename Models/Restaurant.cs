@@ -74,8 +74,6 @@ namespace RestaurantReservationSystem.Api.Models
             reservation.DateTime = updatedReservation.DateTime;
             reservation.Customer = updatedReservation.Customer;
             reservation.Table = updatedReservation.Table;
-
-            AddReservation(reservation);
         }
 
         public void CancelReservation(int reservationId)
