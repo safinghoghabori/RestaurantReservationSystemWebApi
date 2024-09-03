@@ -49,12 +49,20 @@ namespace RestaurantReservationSystem.Api.Controllers
             try
             {
                 _restaurant.UpdateTable(table);
-                return Ok("Table updated successfully.");
+                return Ok(new { message = "Table updated successfully." });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpDelete("tables/{id}")]
+        [Authorize(Policy = "RequireRestaurantOwnerRole")]
+        public ActionResult DeleteTable(int id)
+        {
+            _restaurant.DeleteTable(id);
+            return Ok(new { message = "Table deleted successfully." });
         }
 
         [HttpGet("reservations")]

@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.AspNetCore.Http.HttpResults;
 using RestaurantReservationSystem.Api.Exceptions;
 
 namespace RestaurantReservationSystem.Api.Models
@@ -27,6 +28,15 @@ namespace RestaurantReservationSystem.Api.Models
             else
             {
                 throw new Exception("Table not found.");
+            }
+        }
+
+        public void DeleteTable(int id)
+        {
+            var table = Tables.FirstOrDefault(tab => tab.TableId == id);
+            if (table != null)
+            {
+                Tables.Remove(table);
             }
         }
 
