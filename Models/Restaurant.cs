@@ -14,6 +14,22 @@ namespace RestaurantReservationSystem.Api.Models
 
         public void AddTable(Table table) => Tables.Add(table);
 
+        public void UpdateTable(Table table)
+        {
+            var index = Tables.FindIndex(t => t.TableId == table.TableId);
+
+            // Check if the table exists in the list
+            if (index != -1)
+            {
+                // Update the table at the found index
+                Tables[index] = table;
+            }
+            else
+            {
+                throw new Exception("Table not found.");
+            }
+        }
+
         public void AddReservation(Reservation reservation)
         {
             if (reservation.Table.IsReserved)
