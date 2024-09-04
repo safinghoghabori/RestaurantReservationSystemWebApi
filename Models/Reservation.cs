@@ -4,7 +4,7 @@ namespace RestaurantReservationSystem.Api.Models
     {
         public int ReservationId { get; set; }
         public DateTime DateTime { get; set; }
-        public Customer Customer { get; set; }
-        public Table Table { get; set; }
+        public int CustomerId { get; set; }
+        public int TableId { get; set; }
     }
 }

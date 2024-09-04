@@ -42,24 +42,26 @@ namespace RestaurantReservationSystem.Api.Models
 
         public void AddReservation(Reservation reservation)
         {
-            if (reservation.Table.IsReserved)
+            var table = Tables.FirstOrDefault(tab => tab.TableId == reservation.TableId);
+            if (table != null && table.IsReserved)
             {
                 throw new InvalidReservationException("Table is already reserved.");
             }
 
-            var existingReservations = Reservations.Where(r => r.Table.TableId == reservation.Table.TableId).ToList();
-
-            if (existingReservations.Any(r => r.DateTime == reservation.DateTime))
+            if (reservation.CustomerId == null || reservation.TableId == null || reservation.DateTime == default)
             {
-                throw new DoubleBookingException("A reservation already exists for this table at the same time.");
+                throw new InvalidReservationException("Reservation details are incomplete.");
+            }
+            if (Reservations.Any(r => r.TableId == reservation.TableId && r.DateTime == reservation.DateTime))
+            {
+                throw new OverBookingException("This table is already booked for the specified time.");
+            }
+            if (Reservations.Any(r => r.CustomerId == reservation.CustomerId && r.DateTime == reservation.DateTime))
+            {
+                throw new DoubleBookingException("Customer already has a reservation at the specified time.");
             }
 
-            if (existingReservations.Count >= reservation.Table.Capacity)
-            {
-                throw new OverBookingException("Cannot book this table. Overbooking detected.");
-            }
-
-            reservation.Table.IsReserved = true;
+            table.IsReserved = true;
             Reservations.Add(reservation);
         }
 
@@ -72,8 +74,8 @@ namespace RestaurantReservationSystem.Api.Models
             }
 
             reservation.DateTime = updatedReservation.DateTime;
-            reservation.Customer = updatedReservation.Customer;
-            reservation.Table = updatedReservation.Table;
+            reservation.CustomerId = updatedReservation.CustomerId;
+            reservation.TableId = updatedReservation.TableId;
         }
         public void UpdateCustomer(int customerId, Customer updatedCustomer)
         {
@@ -95,12 +97,13 @@ namespace RestaurantReservationSystem.Api.Models
 
         {
             var reservation = Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+            var table = Tables.FirstOrDefault(tab => tab.TableId == reservation.TableId);
             if (reservation == null)
             {
                 throw new InvalidReservationException("Reservation not found.");
             }
 
-            reservation.Table.IsReserved = false;
+            table.IsReserved = false;
             Reservations.Remove(reservation);
         }
 
