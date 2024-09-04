@@ -1,3 +1,7 @@
+/// <summary>
+    /// Represents a customer with properties for ID, name, phone number, age, and gender.
+/// </summary>
+
 namespace RestaurantReservationSystem.Api.Models
 {
     public class Customer

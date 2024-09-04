@@ -1,3 +1,23 @@
+/// <summary>
+        /// The RestaurantController class handles various operations related to the restaurant, including managing customers,
+        /// tables, and reservations. 
+        /// It uses authorization policies to restrict certain actions to users with specific roles.
+        
+        /// GetCustomers        :   Retrieves the list of customers from the restaurant.
+        /// AddCustomer         :   Adds a new customer to the restaurant. Requires the "RestaurantOwner" role.
+        /// GetTables           :   Retrieves the list of tables from the restaurant. Requires the "RestaurantOwner" role.
+        /// AddTable            :   Adds a new table to the restaurant. Requires the "RestaurantOwner" role.
+        /// UpdateTable         :   Updates an existing table in the restaurant. Requires the "RestaurantOwner" role.
+        /// DeleteTable         :   Deletes a table from the restaurant by its ID. Requires the "RestaurantOwner" role.
+        /// GetReservations     :   Retrieves the list of reservations from the restaurant.
+        /// MakeReservation     :   Makes a new reservation at the restaurant. Requires the "RestaurantOwner" role.
+        /// UpdateReservation   :   Updates an existing reservation by its ID. Requires the "RestaurantOwner" role.
+        /// CancelReservation   :   Cancels an existing reservation by its ID. Requires the "RestaurantOwner" role.
+        /// UpdateCustomer      :   Updates an existing customer by their ID. Requires the "RestaurantOwner" role.
+        /// DeleteCustomer      :   Deletes an existing customer by their ID. Requires the "RestaurantOwner" role.
+/// </summary>
+
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservationSystem.Api.Exceptions;
@@ -161,6 +181,7 @@ namespace RestaurantReservationSystem.Api.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+
         [HttpDelete("customers/{id}")]
         [Authorize(Policy = "RequireRestaurantOwnerRole")]
         public ActionResult DeleteCustomer(int id)
