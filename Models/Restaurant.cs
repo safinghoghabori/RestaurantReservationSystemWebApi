@@ -1,3 +1,7 @@
+using System;
+using Microsoft.AspNetCore.Http.HttpResults;
+using RestaurantReservationSystem.Api.Exceptions;
+
 /// <summary>
     /// The Restaurant class represents a restaurant with properties for its name, customers, tables, and reservations.
     /// It provides methods to manage customers, tables, and reservations, including adding, updating, and deleting entries.
@@ -12,10 +16,6 @@
     /// DeleteCustomer: Deletes an existing customer by their ID. Throws an exception if the customer is not found.
 /// </summary>
 
-
-using System.L
-using Microsoft.AspNetCore.Http.HttpResults;
-using RestaurantReservationSystem.Api.Exceptions;
 
 namespace RestaurantReservationSystem.Api.Models
 {
