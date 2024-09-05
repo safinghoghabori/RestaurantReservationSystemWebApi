@@ -43,10 +43,6 @@ namespace RestaurantReservationSystem.Api.Models
         public void AddReservation(Reservation reservation)
         {
             var table = Tables.FirstOrDefault(tab => tab.TableId == reservation.TableId);
-            if (table != null && table.IsReserved)
-            {
-                throw new InvalidReservationException("Table is already reserved.");
-            }
 
             if (reservation.CustomerId == null || reservation.TableId == null || reservation.DateTime == default)
             {
