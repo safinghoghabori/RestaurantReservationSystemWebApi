@@ -49,8 +49,9 @@ namespace RestaurantReservationSystemAPI
             {
                 options.AddPolicy("RequireRestaurantOwnerRole", policy => policy.RequireClaim("Role", "RestaurantOwner"));
                 options.AddPolicy("RequireCustomerRole", policy => policy.RequireClaim("Role", "Customer"));
+                options.AddPolicy("RequireOwnerOrCustomerRole", policy => policy.RequireAssertion(context =>
+                    context.User.IsInRole("RestaurantOwner") || context.User.IsInRole("Customer")));
             });
-
 
             var app = builder.Build();
 
@@ -61,12 +62,11 @@ namespace RestaurantReservationSystemAPI
                 app.UseSwaggerUI();
             }
 
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseHttpsRedirection();
-
-            app.UseAuthorization();
 
             app.MapControllers();
 

@@ -14,6 +14,7 @@ namespace RestaurantReservationSystem.Api.Controllers
 
         [HttpGet("customers")]
         [Authorize]
+        [Authorize(Policy = "RequireOwnerOrCustomerRole")]
         public ActionResult<List<Customer>> GetCustomers()
         {
             return Ok(_restaurant.Customers);
@@ -28,7 +29,7 @@ namespace RestaurantReservationSystem.Api.Controllers
         }
 
         [HttpGet("tables")]
-        [Authorize(Policy = "RequireRestaurantOwnerRole")]
+        [Authorize(Policy = "RequireOwnerOrCustomerRole")]
         public ActionResult<List<Table>> GetTables()
         {
             return Ok(_restaurant.Tables);
@@ -66,13 +67,14 @@ namespace RestaurantReservationSystem.Api.Controllers
         }
 
         [HttpGet("reservations")]
+        [Authorize(Policy = "RequireOwnerOrCustomerRole")]
         public ActionResult<List<Reservation>> GetReservations()
         {
             return Ok(_restaurant.Reservations);
         }
 
         [HttpPost("reservations")]
-        [Authorize(Policy = "RequireRestaurantOwnerRole")]
+        [Authorize(Policy = "RequireOwnerOrCustomerRole")]
         public ActionResult MakeReservation([FromBody] Reservation reservation)
         {
             try
@@ -175,7 +177,5 @@ namespace RestaurantReservationSystem.Api.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
-
-
     }
 }
