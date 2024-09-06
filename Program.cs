@@ -14,11 +14,11 @@ namespace RestaurantReservationSystemAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers(options =>
             {
                 options.Filters.Add(new AuthorizeFilter());
             });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -53,8 +53,8 @@ namespace RestaurantReservationSystemAPI
             {
                 options.AddPolicy("RequireRestaurantOwnerRole", policy => policy.RequireClaim("Role", "RestaurantOwner"));
                 options.AddPolicy("RequireCustomerRole", policy => policy.RequireClaim("Role", "Customer"));
-                options.AddPolicy("RequireOwnerOrCustomerRole", policy => policy.RequireAssertion(context =>
-                    context.User.IsInRole("RestaurantOwner") || context.User.IsInRole("Customer")));
+                options.AddPolicy("RequireOwnerOrCustomerRole", policy => policy.RequireAssertion(context => context.User.HasClaim(c => c.Type == "Role" && (c.Value == "RestaurantOwner" || c.Value == "Customer")))
+                );
             });
 
             var app = builder.Build();
