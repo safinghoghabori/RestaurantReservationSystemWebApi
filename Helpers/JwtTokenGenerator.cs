@@ -5,6 +5,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+/// <summary>
+/// The JwtTokenGenerator class is responsible for generating JSON Web Tokens (JWT) for authentication purposes.
+/// It uses configuration settings to define the token's properties and signing credentials.
+/// JwtTokenGenerator Constructor: Initializes a new instance of the JwtTokenGenerator class with the specified configuration.
+/// GenerateToken: Generates a JWT for a given username and role, including claims and signing credentials.
+/// </summary>
+
 public class JwtTokenGenerator
 {
     private readonly IConfiguration _configuration;

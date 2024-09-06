@@ -1,6 +1,21 @@
-using System.Linq;
+using System;
 using Microsoft.AspNetCore.Http.HttpResults;
 using RestaurantReservationSystem.Api.Exceptions;
+
+/// <summary>
+    /// The Restaurant class represents a restaurant with properties for its name, customers, tables, and reservations.
+    /// It provides methods to manage customers, tables, and reservations, including adding, updating, and deleting entries.
+    /// AddCustomer: Adds a new customer to the restaurant.
+    /// AddTable: Adds a new table to the restaurant.
+    /// UpdateTable: Updates an existing table in the restaurant. Throws an exception if the table is not found.
+    /// DeleteTable: Deletes a table from the restaurant by its ID.
+    /// AddReservation: Adds a new reservation to the restaurant. Throws exceptions for invalid, double, or overbooked reservations.
+    /// UpdateReservation: Updates an existing reservation by its ID. Throws an exception if the reservation is not found.
+    /// CancelReservation: Cancels an existing reservation by its ID. Throws an exception if the reservation is not found.
+    /// UpdateCustomer:Updates an existing customer by their ID. Throws an exception if the customer is not found.
+    /// DeleteCustomer: Deletes an existing customer by their ID. Throws an exception if the customer is not found.
+/// </summary>
+
 
 namespace RestaurantReservationSystem.Api.Models
 {
